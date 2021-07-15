@@ -1,37 +1,31 @@
+from time import timezone
+
 from rest_framework import serializers
 
-from .models import Review, Shop
+from .models import Review
 from .services import parsing
 
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = ['shop', 'user', 'review_title', 'review_text', 'review_stars']
+        fields = ['shop_link', 'user_mail', 'review_title', 'review_text', 'review_stars']
+
+    def create(self, validated_data):
+        return Review.objects.create(**validated_data, shop=parsing(validated_data.get('shop_link')))
 
 
-class ShopSerializer(serializers.ModelSerializer):
-    review = ReviewSerializer(many=True)
-    shop = serializers.SerializerMethodField()
+class ShopListSerializer(serializers.ModelSerializer):
+    review_count = serializers.IntegerField()
 
     class Meta:
-        model = Shop
-        fields = ['id', 'shop_link', 'shop', 'review']
-
-    def get_shop(self, instance):
-        return parsing(instance.shop_link)
+        model = Review
+        fields = ['shop', 'review_count']
 
 
+class ShopListRatingSerializer(serializers.ModelSerializer):
+    rating = serializers.DecimalField(max_digits=5, decimal_places=1)
 
-# class ShopListAPIViewSerializer(serializers.ModelSerializer):
-#     review_count = serializers.SerializerMethodField()
-#
-#     class Meta:
-#         model = Review
-#         fields = ('review_title', 'review_count')
-#
-#     def get_review_count(self, obj):
-#         review_count = Review.objects.filter(user__in=[obj]).count()
-#         return review_count
-
-
+    class Meta:
+        model = Review
+        fields = ['shop', 'rating']

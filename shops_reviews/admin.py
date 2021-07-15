@@ -1,5 +1,4 @@
 from django.contrib import admin
-from .models import Review, Shop
+from .models import Review
 
-admin.site.register(Shop)
 admin.site.register(Review)
