@@ -48,7 +48,9 @@ class ReviewListRatingAPIView(generics.ListAPIView):
     """
     serializer_class = ShopListRatingSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
-
+    """
+    Calculating and annotating average shop rating, ordering results by rating
+    """
     def get_queryset(self):
         queryset = Review.objects.values('shop').annotate(rating=Avg('review_stars')).order_by('-rating')
 
