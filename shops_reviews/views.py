@@ -1,11 +1,11 @@
 from django.db.models import Count, Avg
-from requests import Response
-from rest_framework import generics, permissions, filters
-from rest_framework.views import APIView
-
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated
 from .models import Review
-from .serializers import ReviewSerializer, ShopListSerializer, ShopListRatingSerializer
-from .services import parsing
+from .serializers import ReviewCreateSerializer, ShopListRatingSerializer, \
+    ReviewUpdateDeleteSerializer, ShopListReviewSerializer, DetailReviewSerializer
+from .service import ShopFilter, UserFilter
+from .permissions import IsOwnerOrReadOnly
 
 
 class ReviewCreateAPIView(generics.CreateAPIView):
@@ -13,22 +13,27 @@ class ReviewCreateAPIView(generics.CreateAPIView):
     API View to create a new Review
     permission: - Is Authenticated
     """
-    serializer_class = ReviewSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, ]
+    serializer_class = ReviewCreateSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class ReviewUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
     """
-    API View to update a Review
-    permissions: - Is Authenticated
+    API View to update or delete a Review
+    permissions: - Is Owner or Admin
     """
-    serializer_class = ReviewSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, ]
+    serializer_class = ReviewUpdateDeleteSerializer
+    permission_classes = (IsOwnerOrReadOnly, IsAdminUser)
     queryset = Review.objects.all()
 
 
-class ReviewListAPIViewSerializer(generics.ListAPIView):
-    serializer_class = ShopListSerializer
+class ReviewCountListAPIView(generics.ListAPIView):
+    """
+    API View to get shop list order by review count
+    permission: - Is Authenticated
+    """
+    serializer_class = ShopListReviewSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         queryset = Review.objects.values('shop').annotate(review_count=Count('shop')).order_by('-review_count')
@@ -36,8 +41,13 @@ class ReviewListAPIViewSerializer(generics.ListAPIView):
         return queryset
 
 
-class ReviewListRatingAPIViewSerializer(generics.ListAPIView):
+class ReviewListRatingAPIView(generics.ListAPIView):
+    """
+    API View to get shop list order by rating
+    permission: - Is Authenticated
+    """
     serializer_class = ShopListRatingSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         queryset = Review.objects.values('shop').annotate(rating=Avg('review_stars')).order_by('-rating')
@@ -45,47 +55,23 @@ class ReviewListRatingAPIViewSerializer(generics.ListAPIView):
         return queryset
 
 
-class DetailShopAPIView(generics.RetrieveAPIView):
-    serializer_class = ReviewSerializer
-    search_fields = ['shop']
-    filter_backends = (filters.SearchFilter,)
+class DetailUserAPIView(generics.ListAPIView):
+    """
+    API View to get review list filter by user, order by datetime
+    permission: - Is Authenticated
+    """
+    queryset = Review.objects.all().order_by('-review_dt')
+    serializer_class = DetailReviewSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    filterset_class = UserFilter
+
+
+class DetailShopAPIView(generics.ListAPIView):
+    """
+    API View to get review list filter by shop name
+    permission: - Is Authenticated
+    """
     queryset = Review.objects.all()
-
-
-
-# class DetailShopAPIView(generics.RetrieveAPIView):
-#     serializer_class = ReviewSerializer
-#
-#     def get_queryset(self):
-#         """
-#         Optionally restricts the returned purchases to a given user,
-#         by filtering against a `username` query parameter in the URL.
-#         """
-#         queryset = Review.objects.all()
-#         shop = self.request.query_params.get('shop')
-#         if shop is not None:
-#             queryset = queryset.filter(shop__shop=shop)
-#         return queryset
-
-
-# class ReviewCreateView(APIView):
-#     def post(self, request):
-#         shop = ShopSerializer(data=request.data)
-#         shop = parsing(shop)
-#         shop.save
-#         review = ReviewCRUDSerializer(data=request.data)
-#         if review.is_valid():
-#             review.save()
-#         return Response(status=201)
-
-
-
-# class ShopListAPIView(generics.ListAPIView):
-#     """
-#     API View to get shop list order by rating or review count
-#     permission: - Is Authenticated
-#     """
-#     serializer_class = ShopSerializer
-#     permission_classes = [permissions.IsAuthenticatedOrReadOnly, ]
-#
-#     queryset = Shop.objects.all()
+    serializer_class = ReviewCreateSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    filterset_class = ShopFilter
