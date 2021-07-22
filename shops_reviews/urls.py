@@ -3,10 +3,10 @@ from .views import ReviewCreateAPIView, ReviewUpdateDeleteAPIView, ReviewCountLi
     ReviewListRatingAPIView, DetailShopAPIView, DetailUserAPIView
 
 urlpatterns = [
-    path('review-create/', ReviewCreateAPIView.as_view()),
-    path('review-ud/<int:pk>/', ReviewUpdateDeleteAPIView.as_view()),
-    path('shop-list/', ReviewCountListAPIView.as_view()),
-    path('shop-rating/', ReviewListRatingAPIView.as_view()),
-    path('users/search', DetailUserAPIView.as_view()),
-    path('shops/search', DetailShopAPIView.as_view()),
+    path('review-create/', ReviewCreateAPIView.as_view(), name='create'),
+    path('review-ud/<int:pk>/', ReviewUpdateDeleteAPIView.as_view(), name='update_destroy'),
+    path('shop-list/', ReviewCountListAPIView.as_view(), name='shop_list'),
+    path('shop-rating/', ReviewListRatingAPIView.as_view(), name='shop_rating'),
+    path('users/search', DetailUserAPIView.as_view(), name='users_search'),
+    path('shops/search', DetailShopAPIView.as_view(), name='shop_search'),
 ]
