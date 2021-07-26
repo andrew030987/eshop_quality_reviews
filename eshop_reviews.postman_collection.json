@@ -1,0 +1,187 @@
+{
+	"info": {
+		"_postman_id": "3c84b677-a10b-4a7a-bb5d-b02e6fb21faf",
+		"name": "eshop_reviews",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Request_Create_Review",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user_2",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "781bow415",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "shop_link",
+							"value": "https://rozetka.com.ua/tovary-dlia-koshek/",
+							"type": "text"
+						},
+						{
+							"key": "user_mail",
+							"value": "user42@mail.ru",
+							"type": "text"
+						},
+						{
+							"key": "review_title",
+							"value": "Good",
+							"type": "text"
+						},
+						{
+							"key": "review_text",
+							"value": "Very good shop",
+							"type": "text"
+						},
+						{
+							"key": "review_stars",
+							"value": "5",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/reviews/review-create/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"reviews",
+						"review-create",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request_Update_Review",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user_2",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "781bow415",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "shop_link",
+							"value": "https://rozetka.com.ua/tovary-dlia-koshek/",
+							"type": "text"
+						},
+						{
+							"key": "user_mail",
+							"value": "user42@mail.ru",
+							"type": "text"
+						},
+						{
+							"key": "review_title",
+							"value": "Good",
+							"type": "text"
+						},
+						{
+							"key": "review_text",
+							"value": "Very good shop",
+							"type": "text"
+						},
+						{
+							"key": "review_stars",
+							"value": "5",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/reviews/review-create/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"reviews",
+						"review-create",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request_Shop_List_Count",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "Request_Shop_List_Rating",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "Request_User_Search_Filter",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "Request_Shop_Search_Filter",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		}
+	]
+}
