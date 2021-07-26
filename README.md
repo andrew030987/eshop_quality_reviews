@@ -40,11 +40,11 @@ DATABASES = {
     }
     
     
-Now you can run the project in Docker container. Type in terminal:
+Now you can up the project in Docker container. Type in terminal:
 
     • sudo docker-compose up
     
-Before service start it will make migrations and run unit tests.
+Before service starts it will make migrations and run unit tests.
 
 You will need to create a superuser with the following command:
 
