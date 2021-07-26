@@ -4,11 +4,15 @@ from .service import parsing
 
 
 class ReviewCreateSerializer(serializers.ModelSerializer):
-    """Binding a current user to a review that is being created"""
+    """
+    Binding a current user to a review that is being created
+    """
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault())
 
-    """Getting a shop name"""
+    """
+    Getting a shop name
+    """
     shop = serializers.SerializerMethodField()
     def get_shop(self, obj):
         return obj.shop
@@ -17,14 +21,18 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
         model = Review
         fields = ['shop_link', 'shop', 'user_mail', 'review_title', 'review_text', 'review_stars', 'user']
 
-    """Creating a shop name by parsing it from URL and adding to a table"""
+    """
+    Creating a shop name by parsing it from URL and adding to a table
+    """
     def create(self, validated_data):
         return Review.objects.create(**validated_data, shop=parsing(validated_data.get('shop_link')))
 
 
 
 class ReviewUpdateDeleteSerializer(serializers.ModelSerializer):
-    """Showing username instead of user id"""
+    """
+    Showing username instead of user id
+    """
     user = serializers.SlugRelatedField(slug_field='username', read_only=True)
 
     class Meta:
@@ -34,7 +42,9 @@ class ReviewUpdateDeleteSerializer(serializers.ModelSerializer):
 
 
 class ShopListReviewSerializer(serializers.ModelSerializer):
-    """Adding review count filed to serializer"""
+    """
+    Adding review count filed to serializer
+    """
     review_count = serializers.IntegerField()
 
     class Meta:
@@ -44,7 +54,9 @@ class ShopListReviewSerializer(serializers.ModelSerializer):
 
 
 class ShopListRatingSerializer(serializers.ModelSerializer):
-    """Adding rating field with appropriate format to serializer"""
+    """
+    Adding rating field with appropriate format to serializer
+    """
     rating = serializers.DecimalField(max_digits=5, decimal_places=1)
 
     class Meta:

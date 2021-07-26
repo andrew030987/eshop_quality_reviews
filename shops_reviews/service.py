@@ -4,7 +4,9 @@ from .models import Review
 
 
 def parsing(url):
-    """URL parser to get a shop name from the shop's link"""
+    """
+    URL parser to get a shop name from the shop's link
+    """
 
     url = urlparse(url).netloc
     a = url.split('.')
@@ -17,7 +19,9 @@ def parsing(url):
 
 
 class ShopFilter(django_filters.FilterSet):
-    """Shop filter to search by shop name"""
+    """
+    Shop filter to search by shop name
+    """
 
     shop = django_filters.CharFilter(lookup_expr='iexact')
 
@@ -27,7 +31,9 @@ class ShopFilter(django_filters.FilterSet):
 
 
 class UserFilter(django_filters.FilterSet):
-    """User filter to search by either user email field or user name"""
+    """
+    User filter to search by either user email field or user name
+    """
 
     user_mail = django_filters.CharFilter(lookup_expr='iexact')
 

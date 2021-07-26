@@ -14,4 +14,4 @@ services:
     image: postgres
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 781BoW412
+      POSTGRES_PASSWORD: test

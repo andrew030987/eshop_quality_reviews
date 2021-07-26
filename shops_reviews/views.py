@@ -29,7 +29,7 @@ class ReviewUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 class ReviewCountListAPIView(generics.ListAPIView):
     """
-    API View to get shop list order by review count
+    API View to get shop list ordered by review count
     permission: - Is Authenticated
     """
     serializer_class = ShopListReviewSerializer
@@ -43,7 +43,7 @@ class ReviewCountListAPIView(generics.ListAPIView):
 
 class ReviewListRatingAPIView(generics.ListAPIView):
     """
-    API View to get shop list order by rating
+    API View to get shop list ordered by rating
     permission: - Is Authenticated
     """
     serializer_class = ShopListRatingSerializer
@@ -59,7 +59,7 @@ class ReviewListRatingAPIView(generics.ListAPIView):
 
 class DetailUserAPIView(generics.ListAPIView):
     """
-    API View to get review list filter by user, order by datetime
+    API View to get review list filter by user, ordered by datetime
     permission: - Is Authenticated
     """
     queryset = Review.objects.all().order_by('-review_dt')
