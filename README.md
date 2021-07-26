@@ -50,4 +50,12 @@ You will need to create a superuser with the following command:
 
     • docker-compose run web python manage.py createsuperuser
 
+List of urls:
+
+    • api/v1/reviews/ review-create/  - to create a new review
+    • api/v1/reviews/ review-ud/<int:pk>/  - to update or delete a review, using it's ID
+    • api/v1/reviews/ shop-list/   - to get a shop list ordered by review count
+    • api/v1/reviews/ shop-rating/  - to get a shop list ordered by shop rating
+    • api/v1/reviews/ users/search  - to get reviews from specific user ordered by datetime
+    • api/v1/reviews/ shops/search  - to get one shop search by domain name
 
